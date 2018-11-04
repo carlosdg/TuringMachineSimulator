@@ -1,5 +1,7 @@
 package me.carlosdg.turing_machine.definition.sets.exceptions;
 
+import me.carlosdg.turing_machine.definition.sets.SymbolSet;
+
 /**
  * Exception for when a given string doesn't represent any symbol of the target
  * set of symbols
@@ -16,8 +18,8 @@ public class SymbolNotFoundInSetException extends Exception {
 	 * @param stringReprOfNotFoundSymbol String representation of the symbol that
 	 *                                   wasn't found in the alphabet
 	 */
-	public SymbolNotFoundInSetException(String stringReprOfNotFoundSymbol) {
-		super("Symbol in alphabet not found: " + stringReprOfNotFoundSymbol);
+	public SymbolNotFoundInSetException(String stringReprOfNotFoundSymbol, SymbolSet<?> stringReprOfSet) {
+		super("Symbol '" + stringReprOfNotFoundSymbol + "' in not found in " + stringReprOfSet);
 	}
 
 }

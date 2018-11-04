@@ -2,6 +2,7 @@ package me.carlosdg.turing_machine.definition.sets;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import me.carlosdg.turing_machine.definition.sets.exceptions.DuplicatedStringInSetException;
@@ -14,7 +15,7 @@ import me.carlosdg.turing_machine.definition.symbols.Symbol;
  *
  * @author Carlos Domínguez García
  */
-public abstract class SymbolSet<T extends Symbol> {
+public abstract class SymbolSet<T extends Symbol> implements Iterable<T> {
 
 	/** Map from string representation to symbols represented by the string */
 	private Map<String, T> mapReprToSymbol = new HashMap<>();
@@ -29,7 +30,7 @@ public abstract class SymbolSet<T extends Symbol> {
 	public SymbolSet(Collection<String> symbolRepresentations) throws DuplicatedStringInSetException {
 		for (String repr : symbolRepresentations) {
 			if (mapReprToSymbol.containsKey(repr)) {
-				throw new DuplicatedStringInSetException(repr);
+				throw new DuplicatedStringInSetException(repr, symbolRepresentations);
 			}
 
 			mapReprToSymbol.put(repr, newSymbol(repr));
@@ -48,7 +49,7 @@ public abstract class SymbolSet<T extends Symbol> {
 	public T getSymbol(String repr) throws SymbolNotFoundInSetException {
 		T symbol = mapReprToSymbol.get(repr);
 		if (symbol == null) {
-			throw new SymbolNotFoundInSetException(repr);
+			throw new SymbolNotFoundInSetException(repr, this);
 		}
 		return symbol;
 	}
@@ -56,6 +57,19 @@ public abstract class SymbolSet<T extends Symbol> {
 	/** Returns whether the given symbol is in the set or not */
 	public boolean has(Symbol symbol) {
 		return mapReprToSymbol.get(symbol.getRepresentation()) != null;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return mapReprToSymbol.values().iterator();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder("{ ");
+		mapReprToSymbol.values().forEach(symbol -> builder.append(symbol + " "));
+		builder.append("}");
+		return builder.toString();
 	}
 
 	/** Returns an instance of the symbols of this alphabet */
