@@ -1,4 +1,4 @@
-package me.carlosdg.turing_machine.definition.sets;
+package me.carlosdg.turing_machine.sets;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -7,9 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import me.carlosdg.turing_machine.definition.sets.exceptions.DuplicatedStringInSetException;
-import me.carlosdg.turing_machine.definition.sets.exceptions.SymbolNotFoundInSetException;
-import me.carlosdg.turing_machine.definition.symbols.AlphabetSymbol;
+import me.carlosdg.turing_machine.sets.Alphabet;
+import me.carlosdg.turing_machine.sets.exceptions.DuplicatedStringInSetException;
+import me.carlosdg.turing_machine.sets.exceptions.SymbolNotFoundInSetException;
+import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 
 public class AlphabetTest {
 

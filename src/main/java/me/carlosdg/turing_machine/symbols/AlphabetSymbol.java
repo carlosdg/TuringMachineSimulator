@@ -1,4 +1,4 @@
-package me.carlosdg.turing_machine.definition.symbols;
+package me.carlosdg.turing_machine.symbols;
 
 /**
  * Class to represent symbols from the tape and input alphabets.
@@ -7,7 +7,7 @@ package me.carlosdg.turing_machine.definition.symbols;
  */
 public class AlphabetSymbol extends Symbol {
 
-	/** @see me.carlosdg.turing_machine.definition.symbols.Symbol */
+	/** @see me.carlosdg.turing_machine.symbols.Symbol */
 	public AlphabetSymbol(String representation) {
 		super(representation);
 	}

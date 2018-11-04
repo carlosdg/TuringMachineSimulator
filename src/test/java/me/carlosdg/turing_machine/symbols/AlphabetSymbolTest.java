@@ -1,7 +1,10 @@
-package me.carlosdg.turing_machine.definition.symbols;
+package me.carlosdg.turing_machine.symbols;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
+
+import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
+import me.carlosdg.turing_machine.symbols.Symbol;
 
 public class AlphabetSymbolTest {
 

@@ -1,13 +1,13 @@
-package me.carlosdg.turing_machine.definition.sets;
+package me.carlosdg.turing_machine.sets;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import me.carlosdg.turing_machine.definition.sets.exceptions.DuplicatedStringInSetException;
-import me.carlosdg.turing_machine.definition.sets.exceptions.SymbolNotFoundInSetException;
-import me.carlosdg.turing_machine.definition.symbols.Symbol;
+import me.carlosdg.turing_machine.sets.exceptions.DuplicatedStringInSetException;
+import me.carlosdg.turing_machine.sets.exceptions.SymbolNotFoundInSetException;
+import me.carlosdg.turing_machine.symbols.Symbol;
 
 /**
  * Base class for symbol sets. It is used as a set of symbols and a verifier to

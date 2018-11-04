@@ -1,4 +1,4 @@
-package me.carlosdg.turing_machine.definition.symbols;
+package me.carlosdg.turing_machine.symbols;
 
 /**
  * State class for representing Turing Machine states
@@ -7,7 +7,7 @@ package me.carlosdg.turing_machine.definition.symbols;
  */
 public class State extends Symbol {
 
-	/** @see me.carlosdg.turing_machine.definition.symbols.Symbol */
+	/** @see me.carlosdg.turing_machine.symbols.Symbol */
 	public State(String representation) {
 		super(representation);
 	}

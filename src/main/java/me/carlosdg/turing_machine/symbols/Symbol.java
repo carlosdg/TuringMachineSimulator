@@ -1,4 +1,4 @@
-package me.carlosdg.turing_machine.definition.symbols;
+package me.carlosdg.turing_machine.symbols;
 
 /**
  * Abstract base class to represent any kind of symbol

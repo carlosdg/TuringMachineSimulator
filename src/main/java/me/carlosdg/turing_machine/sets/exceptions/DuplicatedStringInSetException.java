@@ -1,4 +1,4 @@
-package me.carlosdg.turing_machine.definition.sets.exceptions;
+package me.carlosdg.turing_machine.sets.exceptions;
 
 import java.util.Collection;
 

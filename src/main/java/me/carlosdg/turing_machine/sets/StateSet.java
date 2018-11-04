@@ -1,9 +1,9 @@
-package me.carlosdg.turing_machine.definition.sets;
+package me.carlosdg.turing_machine.sets;
 
 import java.util.Collection;
 
-import me.carlosdg.turing_machine.definition.sets.exceptions.DuplicatedStringInSetException;
-import me.carlosdg.turing_machine.definition.symbols.State;
+import me.carlosdg.turing_machine.sets.exceptions.DuplicatedStringInSetException;
+import me.carlosdg.turing_machine.symbols.State;
 
 /**
  * Represents a set of states
@@ -12,7 +12,7 @@ import me.carlosdg.turing_machine.definition.symbols.State;
  */
 public class StateSet extends SymbolSet<State> {
 
-	/** @see me.carlosdg.turing_machine.definition.sets.SymbolSet */
+	/** @see me.carlosdg.turing_machine.sets.SymbolSet */
 	public StateSet(Collection<String> symbolRepresentations) throws DuplicatedStringInSetException {
 		super(symbolRepresentations);
 	}

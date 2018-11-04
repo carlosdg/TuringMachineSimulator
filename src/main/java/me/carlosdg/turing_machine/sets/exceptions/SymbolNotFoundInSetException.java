@@ -1,6 +1,6 @@
-package me.carlosdg.turing_machine.definition.sets.exceptions;
+package me.carlosdg.turing_machine.sets.exceptions;
 
-import me.carlosdg.turing_machine.definition.sets.SymbolSet;
+import me.carlosdg.turing_machine.sets.SymbolSet;
 
 /**
  * Exception for when a given string doesn't represent any symbol of the target
