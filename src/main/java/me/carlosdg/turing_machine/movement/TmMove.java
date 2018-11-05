@@ -1,6 +1,6 @@
 package me.carlosdg.turing_machine.movement;
 
-import me.carlosdg.turing_machine.movement.exceptions.InvalidMovementRepresentation;
+import me.carlosdg.turing_machine.movement.exceptions.InvalidMovementRepresentationException;
 
 /**
  * Turing Machine possible moves
@@ -16,10 +16,10 @@ public enum TmMove {
 	 *
 	 * @param represention String representation of the movement
 	 * @return The TmMove object that represents the given movement
-	 * @throws InvalidMovementRepresentation If there is no movement represented
+	 * @throws InvalidMovementRepresentationException If there is no movement represented
 	 *                                       with the given string
 	 */
-	static public TmMove from(String represention) throws InvalidMovementRepresentation {
+	static public TmMove from(String represention) throws InvalidMovementRepresentationException {
 		switch (represention) {
 		case "s":
 		case "S":
@@ -32,7 +32,7 @@ public enum TmMove {
 			return TmMove.RIGHT;
 
 		default:
-			throw new InvalidMovementRepresentation(represention);
+			throw new InvalidMovementRepresentationException(represention);
 		}
 	}
 

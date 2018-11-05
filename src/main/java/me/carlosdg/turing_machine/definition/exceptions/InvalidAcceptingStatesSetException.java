@@ -9,11 +9,11 @@ import me.carlosdg.turing_machine.symbols.State;
  *
  * @author Carlos Domínguez García
  */
-public class InvalidAcceptingStatesSet extends Exception {
+public class InvalidAcceptingStatesSetException extends Exception {
 
 	private static final long serialVersionUID = 3902529109875769844L;
 
-	public InvalidAcceptingStatesSet(State acceptingStateNotFound, StateSet acceptingStateSet, StateSet stateSet) {
+	public InvalidAcceptingStatesSetException(State acceptingStateNotFound, StateSet acceptingStateSet, StateSet stateSet) {
 		super("Invalid accepting state '" + acceptingStateNotFound + "' found in the set of accepting states. "
 				+ acceptingStateSet + " It is not part of the set of states: " + stateSet);
 	}

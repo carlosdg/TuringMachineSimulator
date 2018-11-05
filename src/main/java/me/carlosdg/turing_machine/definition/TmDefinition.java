@@ -3,7 +3,7 @@ package me.carlosdg.turing_machine.definition;
 import me.carlosdg.turing_machine.config.TmRawConfiguration;
 import me.carlosdg.turing_machine.definition.exceptions.BlankSymbolFoundInInputAlphabetException;
 import me.carlosdg.turing_machine.definition.exceptions.BlankSymbolNotFoundInTapeAlphabetException;
-import me.carlosdg.turing_machine.definition.exceptions.InvalidAcceptingStatesSet;
+import me.carlosdg.turing_machine.definition.exceptions.InvalidAcceptingStatesSetException;
 import me.carlosdg.turing_machine.definition.exceptions.InvalidInitialStateException;
 import me.carlosdg.turing_machine.definition.exceptions.InvalidInputAlphabetException;
 import me.carlosdg.turing_machine.sets.Alphabet;
@@ -97,16 +97,18 @@ public abstract class TmDefinition<T> {
 	 * @param config Configuration object with the raw representation of the initial
 	 *               state, the set of states and accepting states of the Turing
 	 *               Machine
-	 * @throws DuplicatedStringInSetException If there is any duplicated symbol
-	 *                                        representation in the set of states or
-	 *                                        the set of accepting states
-	 * @throws InvalidAcceptingStatesSet      If there is any accepting state symbol
-	 *                                        that is not part of the states set
-	 * @throws InvalidInitialStateException   If the initial symbol is not found in
-	 *                                        the states set
+	 * @throws DuplicatedStringInSetException     If there is any duplicated symbol
+	 *                                            representation in the set of
+	 *                                            states or the set of accepting
+	 *                                            states
+	 * @throws InvalidAcceptingStatesSetException If there is any accepting state
+	 *                                            symbol that is not part of the
+	 *                                            states set
+	 * @throws InvalidInitialStateException       If the initial symbol is not found
+	 *                                            in the states set
 	 */
 	private void setStates(TmRawConfiguration config)
-			throws DuplicatedStringInSetException, InvalidInitialStateException, InvalidAcceptingStatesSet {
+			throws DuplicatedStringInSetException, InvalidInitialStateException, InvalidAcceptingStatesSetException {
 		states = new StateSet(config.getSetOfStatesRepr());
 		acceptingStates = new StateSet(config.getSetOfAcceptingStatesRepr());
 		initialState = new State(config.getInitialStateRepr());
@@ -117,7 +119,7 @@ public abstract class TmDefinition<T> {
 
 		for (State acceptingState : acceptingStates) {
 			if (!states.has(acceptingState)) {
-				throw new InvalidAcceptingStatesSet(acceptingState, acceptingStates, states);
+				throw new InvalidAcceptingStatesSetException(acceptingState, acceptingStates, states);
 			}
 		}
 
