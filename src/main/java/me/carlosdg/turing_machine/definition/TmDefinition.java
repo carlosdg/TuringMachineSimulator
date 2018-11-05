@@ -13,7 +13,7 @@ import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 import me.carlosdg.turing_machine.symbols.State;
 
 /**
- * Represents a Multitape Turing Machine as a tuple with the following elements:
+ * Represents a Turing Machine as a tuple with the following elements:
  * <ul>
  * <li>The set of states of the machine</li>
  * <li>The set of accepting states of the machine</li>
@@ -23,47 +23,73 @@ import me.carlosdg.turing_machine.symbols.State;
  * <li>The blank symbol</li>
  * <li>The transition function</li>
  * </ul>
+ * Where the transition function depends on the variant of Turing Machine to use
  *
  * @author Carlos Domínguez García
  */
-public class MutitapeTmDefinition {
+public abstract class TmDefinition<T> {
+
 	private StateSet states;
 	private StateSet acceptingStates;
 	private State initialState;
 	private Alphabet tapeAlphabet;
 	private Alphabet inputAlphabet;
 	private AlphabetSymbol blankSymbol;
-	// TODO: Transition function
+	private T transitionFunction;
 
 	/**
 	 * Create a Turing Machine definition by parsing the given Turing Machine raw
 	 * configuration object
 	 *
 	 * @param config Turing Machine raw configuration
-	 * @throws DuplicatedStringInSetException             If there is any duplicated
-	 *                                                    symbol representation in
-	 *                                                    any set
-	 * @throws InvalidAcceptingStatesSet                  If there is any accepting
-	 *                                                    state symbol that is not
-	 *                                                    part of the states set
-	 * @throws InvalidInitialStateException               If the initial symbol is
-	 *                                                    not found in the states
-	 *                                                    set
-	 * @throws InvalidInputAlphabetException              If the input alphabet is
-	 *                                                    not a subset of the tape
-	 *                                                    alphabet
-	 * @throws BlankSymbolFoundInInputAlphabetException   If the blank symbol is
-	 *                                                    found in the input
-	 *                                                    alphabet
-	 * @throws BlankSymbolNotFoundInTapeAlphabetException If the blank symbol is not
-	 *                                                    found in the tape alphabet
+	 * @throws Exception If there is any error during the parse. Many specific
+	 *                   exceptions can be thrown, they can be found at
+	 *                   me.carlosdg.turing_machine.definition.exceptions
 	 */
-	public MutitapeTmDefinition(TmRawConfiguration config) throws DuplicatedStringInSetException,
-			InvalidInitialStateException, InvalidAcceptingStatesSet, BlankSymbolNotFoundInTapeAlphabetException,
-			BlankSymbolFoundInInputAlphabetException, InvalidInputAlphabetException {
+	public TmDefinition(TmRawConfiguration config) throws Exception {
 		setStates(config);
 		setAlphabetSymbols(config);
+		transitionFunction = parseTransitionFunction(config);
 	}
+
+	public StateSet getStates() {
+		return states;
+	}
+
+	public StateSet getAcceptingStates() {
+		return acceptingStates;
+	}
+
+	public State getInitialState() {
+		return initialState;
+	}
+
+	public Alphabet getTapeAlphabet() {
+		return tapeAlphabet;
+	}
+
+	public Alphabet getInputAlphabet() {
+		return inputAlphabet;
+	}
+
+	public AlphabetSymbol getBlankSymbol() {
+		return blankSymbol;
+	}
+
+	public T getTransitionFunction() {
+		return transitionFunction;
+	}
+
+	/**
+	 * Abstract method that delegates the parse of the transition function to the
+	 * specialized children classes
+	 *
+	 * @param config Configuration object with the raw representation of the
+	 *               transitions
+	 * @return The transition function instance of this turing machine
+	 * @throws Exception If there is any error during the parsing of the transitions
+	 */
+	protected abstract T parseTransitionFunction(TmRawConfiguration config) throws Exception;
 
 	/**
 	 * Sets the set of states and initial state
