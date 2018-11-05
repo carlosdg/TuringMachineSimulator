@@ -1,5 +1,6 @@
 package me.carlosdg.turing_machine.transition_functions;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import me.carlosdg.turing_machine.utils.Pair;
  */
 public class MultitapeTransitionFunction {
 
-	private Map<MultitapeTransitionInput, MultitapeTransitionOutput> transitionMap;
+	private Map<MultitapeTransitionInput, MultitapeTransitionOutput> transitionMap = new HashMap<>();
 
 	/**
 	 * Adds the given transition to this transition map/function
