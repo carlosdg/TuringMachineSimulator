@@ -37,9 +37,21 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 
 		for (List<String> transition : rawTransitions) {
 			int numberOfTapesInTransition = getNumberOfTapesInTransition(transition);
+			if (numberOfTapesInTransition <= 0) {
+				throw new InvalidNumberOfTapesException(1, numberOfTapesInTransition, transition);
+			}
+
 			if (expectedNumberOfTapes != numberOfTapesInTransition) {
 				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, numberOfTapesInTransition, transition);
 			}
+
+			// Maybe TODO: make a new exception type for this case
+			int expectedNumberOfElementsInTransition = 2 + numberOfTapesInTransition + 2 * numberOfTapesInTransition;
+			if (expectedNumberOfElementsInTransition != transition.size()) {
+				throw new InvalidNumberOfTapesException(numberOfTapesInTransition,
+						transition.size() - expectedNumberOfElementsInTransition, transition);
+			}
+
 			parseAndAddNewTransition(transitionFunction, transition);
 		}
 
@@ -163,8 +175,8 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	private List<Pair<AlphabetSymbol, TmMove>> parseOutputSymbolMovementPairs(List<String> rawTransition)
 			throws SymbolNotFoundInSetException, InvalidMovementRepresentationException {
 		List<Pair<AlphabetSymbol, TmMove>> pairs = new ArrayList<>();
-		int numberOfTapes = getNumberOfTapesInTransition(rawTransition);
 		Alphabet tapeAlphabet = getTapeAlphabet();
+		int numberOfTapes = getNumberOfTapesInTransition(rawTransition);
 
 		for (int i = numberOfTapes + 2; i < rawTransition.size(); i += 2) {
 			AlphabetSymbol symbol = tapeAlphabet.getSymbol(rawTransition.get(i));
