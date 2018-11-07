@@ -1,6 +1,7 @@
 package me.carlosdg.turing_machine.simulator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import me.carlosdg.turing_machine.movement.TmMove;
@@ -12,7 +13,7 @@ import me.carlosdg.turing_machine.utils.Pair;
  *
  * @author Carlos Domínguez García
  */
-public class TmMultipleMemoryTapes {
+public class TmMultipleMemoryTapes implements Iterable<TmMemoryTape> {
 
 	private List<TmMemoryTape> tapes = new ArrayList<>();
 
@@ -62,6 +63,22 @@ public class TmMultipleMemoryTapes {
 		for (int i = 0; i < tapes.size(); ++i) {
 			tapes.get(i).write(operations.get(i));
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		for (TmMemoryTape tape : tapes) {
+			builder.append(tape + "\n");
+		}
+
+		return builder.toString();
+	}
+
+	@Override
+	public Iterator<TmMemoryTape> iterator() {
+		return tapes.iterator();
 	}
 
 }

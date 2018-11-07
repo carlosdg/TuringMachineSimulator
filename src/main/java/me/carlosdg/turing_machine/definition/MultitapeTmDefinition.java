@@ -26,7 +26,7 @@ import me.carlosdg.turing_machine.utils.Pair;
  */
 public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunction> {
 
-	private int numberOfTapes = 0;
+	private int numberOfTapes;
 
 	/** @see me.carlosdg.turing_machine.definition.TmDefinition */
 	public MultitapeTmDefinition(TmRawConfiguration config) throws Exception {

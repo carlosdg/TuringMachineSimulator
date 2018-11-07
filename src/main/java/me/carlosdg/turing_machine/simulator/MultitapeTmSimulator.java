@@ -1,8 +1,10 @@
 package me.carlosdg.turing_machine.simulator;
 
 import java.util.List;
+import java.util.Optional;
 
 import me.carlosdg.turing_machine.definition.MultitapeTmDefinition;
+import me.carlosdg.turing_machine.simulator.spies.MultitapeTmExcecutionSpy;
 import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 import me.carlosdg.turing_machine.symbols.State;
 import me.carlosdg.turing_machine.transition_functions.MultitapeTransitionFunction;
@@ -28,17 +30,24 @@ public class MultitapeTmSimulator {
 	 * Runs the machine with the given inputs, one for each tape. Returns whether
 	 * the strings are accepted or not
 	 */
-	public boolean accepts(List<List<AlphabetSymbol>> inputWords) {
+	public boolean accepts(List<List<AlphabetSymbol>> inputWords, Optional<MultitapeTmExcecutionSpy> maybeSpy) {
 		setInputToTape(inputWords);
 
 		MultitapeTransitionFunction transitionFunction = definition.getTransitionFunction();
 		State currentState = definition.getInitialState();
 		List<AlphabetSymbol> inputs = tapes.read();
+		if (maybeSpy.isPresent()) {
+			maybeSpy.get().newIteration(currentState, tapes);
+		}
 
 		while (transitionFunction.has(currentState, inputs)) {
 			MultitapeTransitionOutput transitionOutput = transitionFunction.get(currentState, inputs);
 			tapes.write(transitionOutput.getPairs());
 			currentState = transitionOutput.getState();
+			inputs = tapes.read();
+			if (maybeSpy.isPresent()) {
+				maybeSpy.get().newIteration(currentState, tapes);
+			}
 		}
 
 		return definition.getAcceptingStates().has(currentState);
