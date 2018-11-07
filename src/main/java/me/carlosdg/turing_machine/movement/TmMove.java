@@ -16,18 +16,16 @@ public enum TmMove {
 	 *
 	 * @param represention String representation of the movement
 	 * @return The TmMove object that represents the given movement
-	 * @throws InvalidMovementRepresentationException If there is no movement represented
-	 *                                       with the given string
+	 * @throws InvalidMovementRepresentationException If there is no movement
+	 *                                                represented with the given
+	 *                                                string
 	 */
 	static public TmMove from(String represention) throws InvalidMovementRepresentationException {
 		switch (represention) {
-		case "s":
 		case "S":
 			return TmMove.STOP;
-		case "l":
 		case "L":
 			return TmMove.LEFT;
-		case "r":
 		case "R":
 			return TmMove.RIGHT;
 
@@ -37,11 +35,11 @@ public enum TmMove {
 	}
 
 	private String representation;
-	private int movementValue;
+	private int movementOffset;
 
 	private TmMove(String representation, int movementValue) {
 		this.representation = representation;
-		this.movementValue = movementValue;
+		movementOffset = movementValue;
 	}
 
 	/** Returns the movement string representation */
@@ -49,9 +47,9 @@ public enum TmMove {
 		return representation;
 	}
 
-	/** Returns a value representing the movement direction */
-	public int getMovementValue() {
-		return movementValue;
+	/** Returns a value representing the movement offset */
+	public int getMovementOffset() {
+		return movementOffset;
 	}
 
 	@Override
