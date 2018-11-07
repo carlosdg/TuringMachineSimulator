@@ -31,8 +31,8 @@ public class TmRawConfigurationBuilder {
 				blankSymbolRepr, setOfAcceptingStatesRepr, transitionsRepr);
 	}
 
-	public TmRawConfigurationBuilder setStatesRepr(List<String> newStatesRepresentation) {
-		setOfStatesRepr = newStatesRepresentation;
+	public TmRawConfigurationBuilder setStatesRepr(List<String> newStatesRepr) {
+		setOfStatesRepr = newStatesRepr;
 		return this;
 	}
 
@@ -53,6 +53,11 @@ public class TmRawConfigurationBuilder {
 
 	public TmRawConfigurationBuilder setBlankSymbolRepr(String newBlankSymbolRepr) {
 		blankSymbolRepr = newBlankSymbolRepr;
+		return this;
+	}
+
+	public TmRawConfigurationBuilder setAcceptingStatesRepr(List<String> newAcceptingStatesRepr) {
+		setOfAcceptingStatesRepr = newAcceptingStatesRepr;
 		return this;
 	}
 

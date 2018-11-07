@@ -26,6 +26,10 @@ public class MultitapeTmSimulator {
 		tapes = new TmMultipleMemoryTapes(definition.getNumberOfTapes(), definition.getBlankSymbol());
 	}
 
+	public TmMultipleMemoryTapes getTapes() {
+		return tapes;
+	}
+
 	/**
 	 * Runs the machine with the given inputs, one for each tape. Returns whether
 	 * the strings are accepted or not
