@@ -7,6 +7,7 @@ import java.util.Map;
 import me.carlosdg.turing_machine.movement.TmMove;
 import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 import me.carlosdg.turing_machine.symbols.State;
+import me.carlosdg.turing_machine.transition_functions.exceptions.TransitionAlreadyPresentException;
 import me.carlosdg.turing_machine.utils.Pair;
 
 /**
@@ -25,11 +26,16 @@ public class MultitapeTransitionFunction {
 	 * @param inputSymbols        Tape symbols (one for each tape)
 	 * @param outputState         Output state
 	 * @param symbolMovementPairs Output pairs of symbols-moves (one for each tape)
+	 * @throws TransitionAlreadyPresentException If a transition with the same input
+	 *                                           is already present
 	 */
 	public void put(State currentState, List<AlphabetSymbol> inputSymbols, State outputState,
-			List<Pair<AlphabetSymbol, TmMove>> symbolMovementPairs) {
+			List<Pair<AlphabetSymbol, TmMove>> symbolMovementPairs) throws TransitionAlreadyPresentException {
 		MultitapeTransitionInput key = new MultitapeTransitionInput(currentState, inputSymbols);
 		MultitapeTransitionOutput value = new MultitapeTransitionOutput(outputState, symbolMovementPairs);
+		if (transitionMap.containsKey(key)) {
+			throw new TransitionAlreadyPresentException(key, value);
+		}
 		transitionMap.put(key, value);
 	}
 

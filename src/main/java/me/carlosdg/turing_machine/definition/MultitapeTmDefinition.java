@@ -14,6 +14,7 @@ import me.carlosdg.turing_machine.sets.exceptions.SymbolNotFoundInSetException;
 import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 import me.carlosdg.turing_machine.symbols.State;
 import me.carlosdg.turing_machine.transition_functions.MultitapeTransitionFunction;
+import me.carlosdg.turing_machine.transition_functions.exceptions.TransitionAlreadyPresentException;
 import me.carlosdg.turing_machine.utils.Pair;
 
 /**
@@ -87,9 +88,12 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	 * @throws InvalidNumberOfTapesException      If the given raw transition has a
 	 *                                            different number of tapes than
 	 *                                            expected
+	 * @throws TransitionAlreadyPresentException  If a transition with the same
+	 *                                            input is already present
 	 */
 	private void parseAndAddNewTransition(MultitapeTransitionFunction transitionFunction, List<String> transition)
-			throws UnknownSymbolInTransitionException, InvalidMovementInTransition, InvalidNumberOfTapesException {
+			throws UnknownSymbolInTransitionException, InvalidMovementInTransition, InvalidNumberOfTapesException,
+			TransitionAlreadyPresentException {
 		int numberOfTapesInTransition = calculateNumberOfTapesInTransition(transition);
 		int expectedNumberOfElementsInTransition = 2 + getNumberOfTapes() + 2 * getNumberOfTapes();
 

@@ -12,6 +12,7 @@ import org.junit.Test;
 import me.carlosdg.turing_machine.movement.TmMove;
 import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 import me.carlosdg.turing_machine.symbols.State;
+import me.carlosdg.turing_machine.transition_functions.exceptions.TransitionAlreadyPresentException;
 import me.carlosdg.turing_machine.utils.Pair;
 
 public class MultitapeTransitionFunctionTest {
@@ -36,7 +37,15 @@ public class MultitapeTransitionFunctionTest {
 	}
 
 	@Test
-	public void newValuesShouldBeAccessible() {
+	public void shouldThrowOnRepeatedKeys() {
+		assertThatThrownBy(() -> {
+			uut.put(startingState, inputSymbols, outputState, pairs);
+			uut.put(startingState, inputSymbols, outputState, pairs);
+		}).isInstanceOf(TransitionAlreadyPresentException.class);
+	}
+
+	@Test
+	public void newValuesShouldBeAccessible() throws TransitionAlreadyPresentException {
 		uut.put(startingState, inputSymbols, outputState, pairs);
 		MultitapeTransitionOutput output = uut.get(startingState, inputSymbols);
 		assertThat(output.getState()).isEqualTo(outputState);
