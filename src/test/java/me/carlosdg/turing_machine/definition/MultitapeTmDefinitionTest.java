@@ -140,7 +140,7 @@ public class MultitapeTmDefinitionTest {
 			new MultitapeTmDefinition(new TmRawConfiguration(setOfStatesRepr, inputAlphabetRepr, tapeAlphabetRepr,
 					initialStateRepr, blankSymbolRepr, setOfAcceptingStatesRepr,
 					Arrays.asList(Arrays.asList("q0", "x", "q0", "x", "R", "x", "R"))));
-		}).isInstanceOf(InvalidNumberOfTapesException.class).hasMessageContaining("Expected 1 but found 2");
+		}).isInstanceOf(InvalidNumberOfTapesException.class).hasMessageContaining("Expected 1");
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class MultitapeTmDefinitionTest {
 			new MultitapeTmDefinition(
 					new TmRawConfiguration(setOfStatesRepr, inputAlphabetRepr, tapeAlphabetRepr, initialStateRepr,
 							blankSymbolRepr, setOfAcceptingStatesRepr, Arrays.asList(Arrays.asList("q0", "x", "q0"))));
-		}).isInstanceOf(InvalidNumberOfTapesException.class).hasMessageContaining("Expected 1 but found 0");
+		}).isInstanceOf(InvalidNumberOfTapesException.class).hasMessageContaining("Expected 1");
 	}
 
 	@Test

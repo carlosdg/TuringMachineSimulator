@@ -17,7 +17,8 @@ import me.carlosdg.turing_machine.transition_functions.MultitapeTransitionFuncti
 import me.carlosdg.turing_machine.utils.Pair;
 
 /**
- * Represents the definition of a Multitape Turing Machine
+ * Represents the definition of a Multitape Turing Machine. It is responsible
+ * for parsing the transition function of the multitape machine
  *
  * @see me.carlosdg.turing_machine.definition.TmDefinition
  * @author Carlos Domínguez García
@@ -32,24 +33,27 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	@Override
 	protected MultitapeTransitionFunction parseTransitionFunction(TmRawConfiguration config) throws Exception {
 		List<List<String>> rawTransitions = config.getTransitionsRepr();
-		int expectedNumberOfTapes = getNumberOfTapesInTransition(rawTransitions.get(0));
 		MultitapeTransitionFunction transitionFunction = new MultitapeTransitionFunction();
+		int expectedNumberOfTapes = getNumberOfTapesInTransition(rawTransitions.get(0));
+		int expectedNumberOfElementsInTransition = 2 + expectedNumberOfTapes + 2 * expectedNumberOfTapes;
+
+		// Checking that there is at least one tape inferred from the first transition
+		if (expectedNumberOfTapes <= 0) {
+			throw new InvalidNumberOfTapesException(1, rawTransitions.get(0));
+		}
 
 		for (List<String> transition : rawTransitions) {
 			int numberOfTapesInTransition = getNumberOfTapesInTransition(transition);
-			if (numberOfTapesInTransition <= 0) {
-				throw new InvalidNumberOfTapesException(1, numberOfTapesInTransition, transition);
-			}
 
+			// Checking that the number of tapes in this transition is the same as previous
+			// transitions
 			if (expectedNumberOfTapes != numberOfTapesInTransition) {
-				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, numberOfTapesInTransition, transition);
+				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, transition);
 			}
 
-			// Maybe TODO: make a new exception type for this case
-			int expectedNumberOfElementsInTransition = 2 + numberOfTapesInTransition + 2 * numberOfTapesInTransition;
+			// Checking that the number of elements in the transition is the expected number
 			if (expectedNumberOfElementsInTransition != transition.size()) {
-				throw new InvalidNumberOfTapesException(numberOfTapesInTransition,
-						transition.size() - expectedNumberOfElementsInTransition, transition);
+				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, transition);
 			}
 
 			parseAndAddNewTransition(transitionFunction, transition);
