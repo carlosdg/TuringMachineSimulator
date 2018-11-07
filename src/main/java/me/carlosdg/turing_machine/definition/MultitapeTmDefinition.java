@@ -25,37 +25,30 @@ import me.carlosdg.turing_machine.utils.Pair;
  */
 public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunction> {
 
+	private int numberOfTapes = 0;
+
 	/** @see me.carlosdg.turing_machine.definition.TmDefinition */
 	public MultitapeTmDefinition(TmRawConfiguration config) throws Exception {
 		super(config);
+	}
+
+	/** Returns the number of tapes of this machine */
+	public int getNumberOfTapes() {
+		return numberOfTapes;
 	}
 
 	@Override
 	protected MultitapeTransitionFunction parseTransitionFunction(TmRawConfiguration config) throws Exception {
 		List<List<String>> rawTransitions = config.getTransitionsRepr();
 		MultitapeTransitionFunction transitionFunction = new MultitapeTransitionFunction();
-		int expectedNumberOfTapes = getNumberOfTapesInTransition(rawTransitions.get(0));
-		int expectedNumberOfElementsInTransition = 2 + expectedNumberOfTapes + 2 * expectedNumberOfTapes;
+		numberOfTapes = calculateNumberOfTapesInTransition(rawTransitions.get(0));
 
 		// Checking that there is at least one tape inferred from the first transition
-		if (expectedNumberOfTapes <= 0) {
+		if (getNumberOfTapes() <= 0) {
 			throw new InvalidNumberOfTapesException(1, rawTransitions.get(0));
 		}
 
 		for (List<String> transition : rawTransitions) {
-			int numberOfTapesInTransition = getNumberOfTapesInTransition(transition);
-
-			// Checking that the number of tapes in this transition is the same as previous
-			// transitions
-			if (expectedNumberOfTapes != numberOfTapesInTransition) {
-				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, transition);
-			}
-
-			// Checking that the number of elements in the transition is the expected number
-			if (expectedNumberOfElementsInTransition != transition.size()) {
-				throw new InvalidNumberOfTapesException(expectedNumberOfTapes, transition);
-			}
-
 			parseAndAddNewTransition(transitionFunction, transition);
 		}
 
@@ -69,7 +62,7 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	 * @return The number of tapes that this Turing Machine must have assuming the
 	 *         given raw transition has no errors
 	 */
-	private int getNumberOfTapesInTransition(List<String> rawTransition) {
+	private int calculateNumberOfTapesInTransition(List<String> rawTransition) {
 		// State, tapeSymbol, ..., tapeSymbol, state, tapeSymbol, Movement, ...,
 		// tapeSymbol, Movement
 		// State, k * tapeSymbols, state, k * ( tapeSymbol, Movement )
@@ -91,9 +84,26 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	 * @throws InvalidMovementInTransition        If there is a string in the
 	 *                                            transition that doesn't represent
 	 *                                            a valid movement
+	 * @throws InvalidNumberOfTapesException      If the given raw transition has a
+	 *                                            different number of tapes than
+	 *                                            expected
 	 */
 	private void parseAndAddNewTransition(MultitapeTransitionFunction transitionFunction, List<String> transition)
-			throws UnknownSymbolInTransitionException, InvalidMovementInTransition {
+			throws UnknownSymbolInTransitionException, InvalidMovementInTransition, InvalidNumberOfTapesException {
+		int numberOfTapesInTransition = calculateNumberOfTapesInTransition(transition);
+		int expectedNumberOfElementsInTransition = 2 + getNumberOfTapes() + 2 * getNumberOfTapes();
+
+		// Checking that the number of tapes in this transition is the same as previous
+		// transitions
+		if (numberOfTapesInTransition != getNumberOfTapes()) {
+			throw new InvalidNumberOfTapesException(getNumberOfTapes(), transition);
+		}
+
+		// Checking that the number of elements in the transition is the expected number
+		if (expectedNumberOfElementsInTransition != transition.size()) {
+			throw new InvalidNumberOfTapesException(getNumberOfTapes(), transition);
+		}
+
 		try {
 			State currentState = parseCurrentState(transition);
 			List<AlphabetSymbol> inputSymbols = parseInputSymbols(transition);
@@ -136,8 +146,7 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	 *                                      the machine state set
 	 */
 	private State parseOutputState(List<String> transition) throws SymbolNotFoundInSetException {
-		int expectedNumberOfTapes = getNumberOfTapesInTransition(transition);
-		return getStates().getSymbol(transition.get(expectedNumberOfTapes + 1));
+		return getStates().getSymbol(transition.get(1 + getNumberOfTapes()));
 	}
 
 	/**
@@ -152,10 +161,9 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 	 */
 	private List<AlphabetSymbol> parseInputSymbols(List<String> rawTransition) throws SymbolNotFoundInSetException {
 		List<AlphabetSymbol> inputSymbols = new ArrayList<>();
-		int numberOfTapes = getNumberOfTapesInTransition(rawTransition);
 		Alphabet tapeAlphabet = getTapeAlphabet();
 
-		for (int i = 1; i <= numberOfTapes; ++i) {
+		for (int i = 1; i <= getNumberOfTapes(); ++i) {
 			inputSymbols.add(tapeAlphabet.getSymbol(rawTransition.get(i)));
 		}
 
@@ -180,9 +188,8 @@ public class MultitapeTmDefinition extends TmDefinition<MultitapeTransitionFunct
 			throws SymbolNotFoundInSetException, InvalidMovementRepresentationException {
 		List<Pair<AlphabetSymbol, TmMove>> pairs = new ArrayList<>();
 		Alphabet tapeAlphabet = getTapeAlphabet();
-		int numberOfTapes = getNumberOfTapesInTransition(rawTransition);
 
-		for (int i = numberOfTapes + 2; i < rawTransition.size(); i += 2) {
+		for (int i = 2 + getNumberOfTapes(); i < rawTransition.size(); i += 2) {
 			AlphabetSymbol symbol = tapeAlphabet.getSymbol(rawTransition.get(i));
 			TmMove movement = TmMove.from(rawTransition.get(i + 1));
 			pairs.add(new Pair<>(symbol, movement));
