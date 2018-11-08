@@ -15,15 +15,23 @@ import me.carlosdg.turing_machine.simulator.TmMemoryTape;
 import me.carlosdg.turing_machine.simulator.TmMultipleMemoryTapes;
 import me.carlosdg.turing_machine.symbols.AlphabetSymbol;
 
+/**
+ * Multitape Turing Machine simulator main. This application handles the parsing
+ * of the input turing machine configuration and input word to simulate the
+ * turing machine process of accepting/rejecting the given word
+ *
+ * @author Carlos Domínguez García
+ */
 public class App {
 	public static void main(String[] args) {
 		try {
 			if (args.length != 2) {
-				System.err.println(
+				throw new IllegalArgumentException(
 						"Usage: java Simulator.java <turing_machine.config.path> <path.to.input.strings.files>");
 			}
 			String configPath = args[0];
 			String inputsPath = args[1];
+
 			TmRawConfigurationFileReader rawConfigReader = new TmRawConfigurationFileReader(configPath);
 			MultitapeTmDefinition definition = new MultitapeTmDefinition(rawConfigReader.getConfig());
 			MultitapeTmSimulator simulator = new MultitapeTmSimulator(definition);

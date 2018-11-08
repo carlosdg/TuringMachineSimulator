@@ -21,3 +21,17 @@ This Turing Machine is formally defined as a tuple `(Q, Σ, Γ, b, s, F, δ)`, w
 - __s__: is the starting symbol. (s ∈ Q)
 - __F__: is the set of accepting states. If the machine stops in one of these states the input string is considered accepted in the language that the machine recognizes (F ⊆ Q)
 - __δ__: is the transition function. (δ: Q ×  Γ<sup>k</sup> → Q × (Γ × {L, R, S})<sup>k</sup>). It is a map from the given state and inputs from the different tapes to the next state and the symbol to write to each tape and move to do in each tape.
+
+## Usage Example
+
+```
+$ java -jar MTSSimulator.jar examples/concat_ones_and_zeroes.config examples/concat_ones_and_zeroes.input1
+. 1 1 1 1 1 0 0 . 1 1 1 1 1 . 0 0 .
+. 1 1 1 1 1 .
+. 0 0 .
+Accepted: true
+```
+
+Note that in the input file there must be a line for each tape. In the example above we are only using the first tape so the second and third lines of the file are just empty lines.
+
+Also note that it is not necessary to input the number of tapes in the input file, they are inferred from the first transition
